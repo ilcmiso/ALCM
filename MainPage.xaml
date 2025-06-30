@@ -1,6 +1,6 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MAUI_ALCM.MainPage"
+             x:Class="ALCM.MainPage"
              Title="資金計画入力">
 
     <ScrollView>
@@ -42,8 +42,6 @@
                 <Label Text="仲介手数料（万円）" Grid.Row="7" Grid.Column="0" VerticalTextAlignment="Center"/>
                 <Entry x:Name="Entry_AgentFee" Grid.Row="7" Grid.Column="1" Keyboard="Numeric"/>
             </Grid>
-
-            <Button Text="返済表を作成" Clicked="OnCalculateClicked"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
