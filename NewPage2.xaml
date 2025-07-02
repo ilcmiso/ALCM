@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ALCM.NewPage2"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Grid ColumnDefinitions="Auto,*"
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+              RowSpacing="15">
+                <!-- 以降、今の XAML の中身をそのまま挿入 -->
+                <Label Text="物件名" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <Entry x:Name="Entry_PropertyName" Grid.Row="0" Grid.Column="1" Placeholder="例：○○マンション"/>
+                <!-- 以下同じ -->
+                <Label Text="借入金額（万円）" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <Entry x:Name="Entry_LoanAmount" Grid.Row="1" Grid.Column="1" Keyboard="Numeric" Placeholder="例：3000"/>
+                <Label Text="借入年数" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <Entry x:Name="Entry_LoanYears" Grid.Row="2" Grid.Column="1" Keyboard="Numeric" Placeholder="例：35"/>
+                <Label Text="金利（％）" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <Entry x:Name="Entry_InterestRate" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Placeholder="例：1.2"/>
+                <Label Text="返済方法" Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="10">
+                    <RadioButton Content="元利均等" GroupName="RepaymentType" IsChecked="True" />
+                    <RadioButton Content="元金均等" GroupName="RepaymentType" />
+                </HorizontalStackLayout>
+                <Label Text="登記費用（万円）" Grid.Row="5" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <Entry x:Name="Entry_RegFee" Grid.Row="5" Grid.Column="1" Keyboard="Numeric"/>
+                <Label Text="火災保険料（万円）" Grid.Row="6" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <Entry x:Name="Entry_Insurance" Grid.Row="6" Grid.Column="1" Keyboard="Numeric"/>
+                <Label Text="仲介手数料（万円）" Grid.Row="7" Grid.Column="0" VerticalTextAlignment="Center"/>
+                <Entry x:Name="Entry_AgentFee" Grid.Row="7" Grid.Column="1" Keyboard="Numeric"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

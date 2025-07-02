@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace ALCM
+﻿namespace ALCM
 {
     public static class MauiProgram
     {
@@ -11,14 +9,8 @@ namespace ALCM
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("NotoSansJP-Regular.ttf", "FontRegular");
                 });
-
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
-
             return builder.Build();
         }
     }
