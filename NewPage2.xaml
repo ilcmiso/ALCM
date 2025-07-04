@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ALCM.NewPage2"
              Shell.NavBarIsVisible="False">
+
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
             <Grid ColumnDefinitions="Auto,*"
-              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-              RowSpacing="0">
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                RowSpacing="0">
                 <Label Text="物件名" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center"/>
                 <Entry x:Name="Entry_PropertyName" Grid.Row="0" Grid.Column="1" Placeholder="物件名称"/>
 
@@ -23,8 +24,8 @@
                 <Label Text="返済方法" Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Center"/>
                 
                 <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="10">
-                    <RadioButton Content="元利均等" GroupName="RepaymentType" IsChecked="True" />
-                    <RadioButton Content="元金均等" GroupName="RepaymentType" />
+                    <RadioButton x:Name="RB_Ganri" Content="元利均等" GroupName="RepaymentType" IsChecked="True"/>
+                    <RadioButton x:Name="RB_Gankin" Content="元金均等" GroupName="RepaymentType"/>
                 </HorizontalStackLayout>
                 
                 <Label Text="登記費用（万円）" Grid.Row="5" Grid.Column="0" VerticalTextAlignment="Center"/>
@@ -39,3 +40,4 @@
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
+    

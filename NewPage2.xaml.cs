@@ -10,18 +10,23 @@ public partial class NewPage2 : ContentPage
 		InitializeComponent();
 	}
 
+    // ローン金額の入力欄でフォーカスが外れたときの処理
     private void Entry_LoanAmount_Unfocused(object sender, FocusEventArgs e)
     {
         if (sender is Entry entry)
             ClampEntryValueInt(entry, 1, 100000, 3000); // 1万～10億 初期3000万
+        UpdateLoanInputData();
     }
 
+    // ローン年数の入力欄でフォーカスが外れたときの処理
     private void Entry_LoanYears_Unfocused(object sender, FocusEventArgs e)
     {
         if (sender is Entry entry)
             ClampEntryValueInt(entry, 1, 50, 35); // デフォルト35
+        UpdateLoanInputData();
     }
 
+    // 金利の入力欄でフォーカスが外れたときの処理
     private void Entry_InterestRate_Unfocused(object sender, FocusEventArgs e)
     {
         var entry = sender as Entry;
@@ -65,9 +70,10 @@ public partial class NewPage2 : ContentPage
                 entry.Text = "1.000";
             }
         }
+        UpdateLoanInputData();
     }
 
-
+    // 入力値を指定範囲内に調整
     private void ClampEntryValueInt(Entry entry, int min, int max, int defaultValue)
     {
         string raw = entry.Text?.Trim();
@@ -83,4 +89,31 @@ public partial class NewPage2 : ContentPage
         }
     }
 
+    // ローン入力データ更新
+    private void UpdateLoanInputData()
+    {
+        try
+        {
+            var data = new LoanInputData
+            {
+                LoanAmount = int.Parse(Entry_LoanAmount.Text.Replace(",", ""))*10000,
+                Years = int.Parse(Entry_LoanYears.Text),
+                InterestRate = double.Parse(Entry_InterestRate.Text),
+                RepaymentType = (RB_Ganri.IsChecked ? "元利均等" : "元金均等")
+            };
+
+            SharedLoanInputData.Current = data;
+        }
+        catch
+        {
+            // 無効な入力時はスルー（必要ならログや警告出す）
+        }
+    }
+
+}
+
+// 償還表へのデータ通知用 共通データ
+public static class SharedLoanInputData
+{
+    public static LoanInputData? Current { get; set; }
 }
