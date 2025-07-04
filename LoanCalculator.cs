@@ -9,7 +9,7 @@ namespace ALCM
         public int LoanAmount { get; set; }
         public int Years { get; set; }
         public double InterestRate { get; set; } // 年利（%）
-        public string RepaymentType { get; set; } // "元利均等" or "元金均等"
+        public required string RepaymentType { get; set; } // "元利均等" or "元金均等"
     }
 
     public class AmortizationRow
@@ -44,7 +44,7 @@ namespace ALCM
                 principalPerMonth = (double)input.LoanAmount / totalMonths;
             }
 
-            DateTime baseDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 5);
+            DateTime baseDate = new(DateTime.Now.Year, DateTime.Now.Month, 5);
 
             for (int i = 1; i <= totalMonths; i++)
             {

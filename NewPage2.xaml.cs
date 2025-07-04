@@ -30,17 +30,16 @@ public partial class NewPage2 : ContentPage
     // 金利の入力欄でフォーカスが外れたときの処理
     private void Entry_InterestRate_Unfocused(object sender, FocusEventArgs e)
     {
-        var entry = sender as Entry;
-        if (entry == null) return;
+        if (sender is not Entry entry) return;
 
-        string raw = entry.Text?.Trim();
+        string raw = entry.Text.Trim();
         if (string.IsNullOrEmpty(raw))
         {
             entry.Text = "1.000";
             return;
         }
 
-        if (raw.Contains("."))
+        if (raw.Contains('.'))
         {
             if (double.TryParse(raw, out double value))
             {
@@ -76,7 +75,7 @@ public partial class NewPage2 : ContentPage
     // 入力値を指定範囲内に調整
     private void ClampEntryValueInt(Entry entry, int min, int max, int defaultValue)
     {
-        string raw = entry.Text?.Trim();
+        string raw = entry.Text.Trim();
 
         if (int.TryParse(raw, out int value))
         {

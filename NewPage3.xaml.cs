@@ -7,7 +7,7 @@ namespace ALCM
     public partial class NewPage3 : ContentPage
     {
         // 返済表データを保持・UIにバインドするコレクション
-        public ObservableCollection<AmortizationItem> AmortizationItems { get; } = new();
+        public ObservableCollection<AmortizationItem> AmortizationItems { get; } = [];
 
         public NewPage3()
         {
