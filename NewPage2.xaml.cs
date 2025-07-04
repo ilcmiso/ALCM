@@ -1,6 +1,3 @@
-using Microsoft.Maui.Platform;
-using System.Diagnostics;
-
 namespace ALCM;
 
 public partial class NewPage2 : ContentPage
@@ -8,14 +5,19 @@ public partial class NewPage2 : ContentPage
 	public NewPage2()
 	{
 		InitializeComponent();
-	}
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        UpdateLoanInputData();
+    }
 
     // ローン金額の入力欄でフォーカスが外れたときの処理
     private void Entry_LoanAmount_Unfocused(object sender, FocusEventArgs e)
     {
         if (sender is Entry entry)
             ClampEntryValueInt(entry, 1, 100000, 3000); // 1万～10億 初期3000万
-        UpdateLoanInputData();
     }
 
     // ローン年数の入力欄でフォーカスが外れたときの処理
@@ -23,7 +25,6 @@ public partial class NewPage2 : ContentPage
     {
         if (sender is Entry entry)
             ClampEntryValueInt(entry, 1, 50, 35); // デフォルト35
-        UpdateLoanInputData();
     }
 
     // 金利の入力欄でフォーカスが外れたときの処理
@@ -70,7 +71,6 @@ public partial class NewPage2 : ContentPage
                 entry.Text = "1.000";
             }
         }
-        UpdateLoanInputData();
     }
 
     // 入力値を指定範囲内に調整
@@ -89,7 +89,7 @@ public partial class NewPage2 : ContentPage
         }
     }
 
-    // ローン入力データ更新
+    // ローン入力データを共通データに設定
     private void UpdateLoanInputData()
     {
         try

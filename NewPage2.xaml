@@ -13,13 +13,13 @@
                 <Entry x:Name="Entry_PropertyName" Grid.Row="0" Grid.Column="1" Placeholder="物件名称"/>
 
                 <Label Text="借入金額(万円)" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <Entry x:Name="Entry_LoanAmount" Grid.Row="1" Grid.Column="1" Keyboard="Numeric" Placeholder="例:3000" Unfocused="Entry_LoanAmount_Unfocused"/>
+                <Entry x:Name="Entry_LoanAmount" Grid.Row="1" Grid.Column="1" Keyboard="Numeric" Text="2000" Placeholder="例:3000" Unfocused="Entry_LoanAmount_Unfocused"/>
                 
                 <Label Text="借入年数" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center"/>
                 <Entry x:Name="Entry_LoanYears" Grid.Row="2" Grid.Column="1" Keyboard="Numeric" Text="35" Unfocused="Entry_LoanYears_Unfocused" />
                 
                 <Label Text="金利(％)" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <Entry x:Name="Entry_InterestRate" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Placeholder="例: 2.345" Unfocused="Entry_InterestRate_Unfocused" />
+                <Entry x:Name="Entry_InterestRate" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Text="2.345" Placeholder="例: 2.345" Unfocused="Entry_InterestRate_Unfocused" />
                 
                 <Label Text="返済方法" Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Center"/>
                 

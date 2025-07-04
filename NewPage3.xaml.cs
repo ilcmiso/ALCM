@@ -1,34 +1,55 @@
-// 編集が必要なファイル名2: NewPage3.xaml.cs
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.Maui.Controls;
 
 namespace ALCM
 {
     public partial class NewPage3 : ContentPage
     {
+        // 返済表データを保持・UIにバインドするコレクション
+        public ObservableCollection<AmortizationItem> AmortizationItems { get; } = new();
+
         public NewPage3()
         {
             InitializeComponent();
+            BindingContext = this;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            // NewPage2で入力されたデータを読み込む
             var input = SharedLoanInputData.Current;
-
             if (input != null)
             {
                 var result = LoanCalculator.Generate(input);
-                AmortizationListView.ItemsSource = result;
+                AmortizationItems.Clear();
+                foreach (var item in result)
+                    AmortizationItems.Add(new AmortizationItem
+                    {
+                        回数 = item.回数,
+                        振替日 = item.振替日,
+                        返済金額 = item.返済金額,
+                        元金額 = item.元金額,
+                        利息額 = item.利息額,
+                        残高 = item.残高
+                    });
             }
             else
             {
-                // データが未入力だったときのフォールバック（エラー表示や初期状態）
-                AmortizationListView.ItemsSource = null;
+                AmortizationItems.Clear();
             }
         }
+    }
+
+    // バインド用データモデル
+    public class AmortizationItem
+    {
+        public int 回数 { get; set; }
+        public DateTime 振替日 { get; set; }
+        public decimal 返済金額 { get; set; }
+        public decimal 元金額 { get; set; }
+        public decimal 利息額 { get; set; }
+        public decimal 残高 { get; set; }
     }
 }

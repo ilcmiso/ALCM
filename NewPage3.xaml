@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ALCM"
              x:Class="ALCM.NewPage3"
              Shell.NavBarIsVisible="False">
-    <StackLayout Padding="5,0,0,0">
-        <ListView x:Name="AmortizationListView"
-                  RowHeight="27"
-                  HasUnevenRows="False"
-                  SeparatorVisibility="None">
-            <!-- 見出し -->
-            <ListView.Header>
-                <Grid ColumnDefinitions="30,85,60,60,60,85" Padding="0,5">
-                    <Label Text="回" FontAttributes="Bold"/>
-                    <Label Text="振替日" Grid.Column="1" FontAttributes="Bold"/>
-                    <Label Text="返済額" Grid.Column="2" FontAttributes="Bold"/>
-                    <Label Text="元金額" Grid.Column="3" FontAttributes="Bold"/>
-                    <Label Text="利息額" Grid.Column="4" FontAttributes="Bold"/>
-                    <Label Text="残高" Grid.Column="5" FontAttributes="Bold"/>
-                </Grid>
-            </ListView.Header>
+    
+    <CollectionView ItemsSource="{Binding AmortizationItems}"
+                  ItemSizingStrategy="MeasureFirstItem"
+                  x:Name="AmortizationCollectionView"
+                  Margin="5,0,0,0">
+        
+        
+        <!-- 見出し -->
+        <CollectionView.Header>
+            <Grid ColumnDefinitions="30,85,60,60,60,85" Padding="0,5">
+                <Label Text="回" FontAttributes="Bold"/>
+                <Label Text="振替日" Grid.Column="1" FontAttributes="Bold"/>
+                <Label Text="返済額" Grid.Column="2" FontAttributes="Bold"/>
+                <Label Text="元金額" Grid.Column="3" FontAttributes="Bold"/>
+                <Label Text="利息額" Grid.Column="4" FontAttributes="Bold"/>
+                <Label Text="残高" Grid.Column="5" FontAttributes="Bold"/>
+            </Grid>
+        </CollectionView.Header>
 
-            <!-- 明細リスト -->
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Spacing="1">
-                            <Label Text="{Binding 回数}" WidthRequest="30"/>
-                            <Label Text="{Binding 振替日, StringFormat='{0:yyyy/MM/dd}'}" WidthRequest="85" VerticalOptions="Start"/>
-                            <Label Text="{Binding 返済金額, StringFormat='{0:N0}'}" WidthRequest="60" VerticalOptions="Start"/>
-                            <Label Text="{Binding 元金額, StringFormat='{0:N0}'}" WidthRequest="60" VerticalOptions="Start"/>
-                            <Label Text="{Binding 利息額, StringFormat='{0:N0}'}" WidthRequest="60" VerticalOptions="Start"/>
-                            <Label Text="{Binding 残高, StringFormat='{0:N0}'}" WidthRequest="85" VerticalOptions="Start"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout >
+
+        <!-- 明細テンプレート -->
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:AmortizationItem">
+                <Grid ColumnDefinitions="30,85,60,60,60,85" HeightRequest="27">
+                    <Label Text="{Binding 回数}" Grid.Column="0"/>
+                    <Label Text="{Binding 振替日, StringFormat='{0:yyyy/MM/dd}'}" Grid.Column="1"/>
+                    <Label Text="{Binding 返済金額, StringFormat='{0:N0}'}" Grid.Column="2"/>
+                    <Label Text="{Binding 元金額, StringFormat='{0:N0}'}" Grid.Column="3"/>
+                    <Label Text="{Binding 利息額, StringFormat='{0:N0}'}" Grid.Column="4"/>
+                    <Label Text="{Binding 残高, StringFormat='{0:N0}'}" Grid.Column="5"/>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </ContentPage>
