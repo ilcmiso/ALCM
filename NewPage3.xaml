@@ -4,13 +4,12 @@
              xmlns:models="clr-namespace:ALCM"
              x:Class="ALCM.NewPage3"
              Shell.NavBarIsVisible="False">
-    
+
     <CollectionView ItemsSource="{Binding AmortizationItems}"
                   ItemSizingStrategy="MeasureFirstItem"
                   x:Name="AmortizationCollectionView"
                   Margin="8,0,0,0">
-        
-        
+
         <!-- 見出し -->
         <CollectionView.Header>
             <Grid ColumnDefinitions="30,85,55,55,55,85" Padding="0,5">
@@ -22,7 +21,6 @@
                 <Label Text="残高" Grid.Column="5" FontAttributes="Bold"/>
             </Grid>
         </CollectionView.Header>
-
 
         <!-- 明細テンプレート -->
         <CollectionView.ItemTemplate>

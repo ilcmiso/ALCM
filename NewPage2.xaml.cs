@@ -109,6 +109,24 @@ public partial class NewPage2 : ContentPage
         }
     }
 
+    private void OnAddTierClicked(object sender, EventArgs e)
+    {
+        var hl = new HorizontalStackLayout { Spacing = 40 };
+
+        var entryYear = new Entry { WidthRequest = 50, Keyboard = Keyboard.Numeric, Placeholder = "年数", Text = "0" };
+        var entryRate = new Entry { WidthRequest = 80, Keyboard = Keyboard.Numeric, Placeholder = "％", Text = "0.000" };
+
+        // フォーカス外し検証イベントも付けるならコピーして追加
+        //entryYear.Unfocused += Entry_LoanYears_Unfocused;
+        //entryRate.Unfocused += Entry_InterestRate_Unfocused;
+
+        hl.Children.Add(entryYear);
+        hl.Children.Add(entryRate);
+
+        TierContainer.Children.Add(hl);
+    }
+
+
 }
 
 // 償還表へのデータ通知用 共通データ

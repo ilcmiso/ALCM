@@ -15,6 +15,16 @@ namespace ALCM
             BindingContext = this;
         }
 
+        private void OnAddClicked(object sender, EventArgs e)
+        {
+            // 新規登録画面を呼ぶなどの処理
+        }
+
+        private void OnRefreshClicked(object sender, EventArgs e)
+        {
+            // 更新処理（再読み込み・再計算など）
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -52,4 +62,6 @@ namespace ALCM
         public decimal 利息額 { get; set; }
         public decimal 残高 { get; set; }
     }
+
+
 }
