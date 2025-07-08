@@ -5,6 +5,7 @@ public partial class NewPage2 : ContentPage
 	public NewPage2()
 	{
 		InitializeComponent();
+        BindingContext = new RateSettingsViewModel();  // ViewModel‚ğƒoƒCƒ“ƒh‚·‚é‚½‚ß‚ÌéŒ¾
     }
 
     protected override void OnDisappearing()
