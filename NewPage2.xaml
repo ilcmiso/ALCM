@@ -1,42 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ALCM.NewPage2"
-             Shell.NavBarIsVisible="False"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:local="clr-namespace:ALCM.ViewModels">
+<ContentPage
+  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  xmlns:vm="clr-namespace:ALCM.ViewModels"
+  x:Class="ALCM.NewPage2"
+  Shell.NavBarIsVisible="False">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
-            <Grid ColumnDefinitions="Auto,*"
-                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                RowSpacing="0">
-                <Label Text="物件名" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <Entry x:Name="Entry_PropertyName" Grid.Row="0" Grid.Column="1" Placeholder="物件名称"/>
+    <VerticalStackLayout Padding="20" Spacing="20">
 
-                <Label Text="借入金額(万円)" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <Entry x:Name="Entry_LoanAmount" Grid.Row="1" Grid.Column="1" Keyboard="Numeric" Text="2000" Placeholder="例:3000" Unfocused="Entry_LoanAmount_Unfocused"/>
+        <!-- グリッド：物件名や借入金額などの既存入力群 -->
+        <Grid ColumnDefinitions="Auto,*"
+          RowDefinitions="Auto,Auto,Auto"
+          RowSpacing="10">
+            <Label Text="物件名" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" />
+            <Entry x:Name="Entry_PropertyName" Grid.Row="0" Grid.Column="1" Placeholder="物件名称" />
 
-                <!-- 借入年数・金利 -->
-                <Label Text="借入年数 / 金利(％)" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center"/>
+            <Label Text="借入金額(万円)" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" />
+            <Entry x:Name="Entry_LoanAmount" Grid.Row="1" Grid.Column="1"
+             Keyboard="Numeric" Text="2000" Placeholder="例:3000"
+             Unfocused="Entry_LoanAmount_Unfocused" />
 
-                <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Spacing="40">
+            <Label Text="借入年数 / 金利(％)" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" />
+            <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Spacing="40">
+                <Entry x:Name="Entry_LoanYears"
+               WidthRequest="50"
+               Keyboard="Numeric"
+               Text="35"
+               Unfocused="Entry_LoanYears_Unfocused" />
+                <Entry x:Name="Entry_InterestRate"
+               WidthRequest="80"
+               Keyboard="Numeric"
+               Text="2.345"
+               Unfocused="Entry_InterestRate_Unfocused" />
+            </HorizontalStackLayout>
+        </Grid>
 
-                    <Entry x:Name="Entry_LoanYears"
-                       WidthRequest="50"
-                       Keyboard="Numeric"
-                       Text="35"
-                       Unfocused="Entry_LoanYears_Unfocused" />
-                    <Entry x:Name="Entry_InterestRate"
-                       WidthRequest="80"
-                       Keyboard="Numeric"
-                       Text="2.345"
-                       Placeholder="例: 2.345"
-                       Unfocused="Entry_InterestRate_Unfocused" />
-                    
-                 </HorizontalStackLayout>
-                <!-- ＋ 段階を追加 ボタン -->
-                <Button Text="＋ 段階金利"
+        <!-- 段階金利セクション -->
+        <CollectionView
+          ItemsSource="{Binding RateTiers}"
+          ItemsUpdatingScrollMode="KeepLastItemInView"
+          HeightRequest="60">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+            </CollectionView.ItemsLayout>
+          
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:RateTier">
+                    <HorizontalStackLayout Spacing="40" Padding="0,5">
+                        <Entry WidthRequest="50"
+                          Text="{Binding Years, Mode=TwoWay}"
+                          Keyboard="Numeric" />
+                        <Entry WidthRequest="80"
+                          Text="{Binding InterestRate, Mode=TwoWay}"
+                          Keyboard="Numeric" />
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- ＋段階金利 ボタン -->
+        <Button Text="＋ 段階金利"
                     Grid.Row="3"
                     Grid.Column="1"
                     Command="{Binding AddTierCommand}"
@@ -49,25 +72,25 @@
                     LineBreakMode="NoWrap"
                     Margin="0,5,0,10" />
 
-                <StackLayout x:Name="TierContainer" Grid.Row="4" Grid.ColumnSpan="2" Spacing="10" />
+        <StackLayout x:Name="TierContainer" Grid.Row="4" Grid.ColumnSpan="2" Spacing="10" />
 
-                <Label Text="返済方法" Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Center"/>
+        <!-- 返済方法～仲介手数料等、別のグリッド -->
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10">
+            <Label Text="返済方法" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" />
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="20">
+                <RadioButton x:Name="RB_Ganri" Content="元利均等" GroupName="RepaymentType" IsChecked="True" />
+                <RadioButton x:Name="RB_Gankin" Content="元金均等" GroupName="RepaymentType" />
+            </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="20">
-                    <RadioButton x:Name="RB_Ganri" Content="元利均等" GroupName="RepaymentType" IsChecked="True"/>
-                    <RadioButton x:Name="RB_Gankin" Content="元金均等" GroupName="RepaymentType"/>
-                </HorizontalStackLayout>
+            <Label Text="金消契約日" Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" />
+            <DatePicker x:Name="DP_ExDate" Grid.Row="1" Grid.Column="1" Format="yyyy/MM/dd" />
 
-                <Label Text="金消契約日" Grid.Row="5" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <DatePicker x:Name="DP_ExDate" Grid.Row="5" Grid.Column="1" Format="yyyy/MM/dd" />
+            <Label Text="返済開始日" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" />
+            <DatePicker x:Name="DP_RepayDate" Grid.Row="2" Grid.Column="1" Format="yyyy/MM/dd" />
 
-                <Label Text="返済開始日" Grid.Row="6" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <DatePicker x:Name="DP_RepayDate" Grid.Row="6" Grid.Column="1" Format="yyyy/MM/dd" />
+            <Label Text="仲介手数料（万円）" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center" />
+            <Entry x:Name="Entry_AgentFee" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" />
+        </Grid>
 
-                <Label Text="仲介手数料（万円）" Grid.Row="7" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <Entry x:Name="Entry_AgentFee" Grid.Row="7" Grid.Column="1" Keyboard="Numeric"/>
-            </Grid>
-        </VerticalStackLayout>
-    </ScrollView>
+    </VerticalStackLayout>
 </ContentPage>
-    
