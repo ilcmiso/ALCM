@@ -11,7 +11,7 @@
         <!-- グリッド：物件名や借入金額などの既存入力群 -->
         <Grid ColumnDefinitions="Auto,*"
           RowDefinitions="Auto,Auto,Auto"
-          RowSpacing="10">
+          RowSpacing="0">
             <Label Text="物件名" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" />
             <Entry x:Name="Entry_PropertyName" Grid.Row="0" Grid.Column="1" Placeholder="物件名称" />
 
@@ -20,18 +20,37 @@
              Keyboard="Numeric" Text="2000" Placeholder="例:3000"
              Unfocused="Entry_LoanAmount_Unfocused" />
 
-            <Label Text="借入年数 / 金利(％)" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" />
-            <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Spacing="40">
+            <Label Text="借入年数 / 金利　" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" />
+            <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Spacing="15">
                 <Entry x:Name="Entry_LoanYears"
-               WidthRequest="50"
-               Keyboard="Numeric"
-               Text="35"
-               Unfocused="Entry_LoanYears_Unfocused" />
+                   WidthRequest="50"
+                   Keyboard="Numeric"
+                   Text="35"
+                   Unfocused="Entry_LoanYears_Unfocused" />
+
+                <Label Text="年" VerticalTextAlignment="Center"/>
+
                 <Entry x:Name="Entry_InterestRate"
-               WidthRequest="80"
-               Keyboard="Numeric"
-               Text="2.345"
-               Unfocused="Entry_InterestRate_Unfocused" />
+                   WidthRequest="60"
+                   Keyboard="Numeric"
+                   Text="2.345"
+                   Unfocused="Entry_InterestRate_Unfocused" />
+
+                <Label Text="%" VerticalTextAlignment="Center"/>
+
+                <!-- ＋段階金利 ボタン -->
+                <Button Text="＋"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding AddTierCommand}"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    FontSize="14"
+                    Padding="10,0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    LineBreakMode="NoWrap"
+                    Margin="0,5,0,10" />
             </HorizontalStackLayout>
         </Grid>
 
@@ -39,43 +58,35 @@
         <CollectionView
           ItemsSource="{Binding RateTiers}"
           ItemsUpdatingScrollMode="KeepLastItemInView"
-          HeightRequest="60">
+          HeightRequest="50">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
             </CollectionView.ItemsLayout>
           
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:RateTier">
-                    <HorizontalStackLayout Spacing="40" Padding="0,5">
+                    <HorizontalStackLayout Spacing="15" Padding="0,5">
                         <Entry WidthRequest="50"
+                          Margin="110,0,0,0"
                           Text="{Binding Years, Mode=TwoWay}"
                           Keyboard="Numeric" />
-                        <Entry WidthRequest="80"
+
+                        <Label Text="年" VerticalTextAlignment="Center"/>
+
+                        <Entry WidthRequest="60"
                           Text="{Binding InterestRate, Mode=TwoWay}"
                           Keyboard="Numeric" />
+
+                        <Label Text="%" VerticalTextAlignment="Center"/>
                     </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- ＋段階金利 ボタン -->
-        <Button Text="＋ 段階金利"
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Command="{Binding AddTierCommand}"
-                    HeightRequest="40"
-                    WidthRequest="100"
-                    FontSize="14"
-                    Padding="10,0"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    LineBreakMode="NoWrap"
-                    Margin="0,5,0,10" />
-
         <StackLayout x:Name="TierContainer" Grid.Row="4" Grid.ColumnSpan="2" Spacing="10" />
 
         <!-- 返済方法～仲介手数料等、別のグリッド -->
-        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10">
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="0">
             <Label Text="返済方法" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" />
             <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="20">
                 <RadioButton x:Name="RB_Ganri" Content="元利均等" GroupName="RepaymentType" IsChecked="True" />
