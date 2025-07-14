@@ -110,8 +110,16 @@ public partial class NewPage2 : ContentPage
         }
     }
 
+    private bool _tiersVisible = true;
+
     private void OnAddTierClicked(object sender, EventArgs e)
     {
+        _tiersVisible = !_tiersVisible;
+
+        Layout_Tier2.IsVisible = _tiersVisible;
+        Layout_Tier3.IsVisible = _tiersVisible;
+        Layout_Tier4.IsVisible = _tiersVisible;
+
         var hl = new HorizontalStackLayout { Spacing = 40 };
 
         var entryYear = new Entry { WidthRequest = 50, Keyboard = Keyboard.Numeric, Placeholder = "年数", Text = "0" };
@@ -123,11 +131,7 @@ public partial class NewPage2 : ContentPage
 
         hl.Children.Add(entryYear);
         hl.Children.Add(entryRate);
-
-        TierContainer.Children.Add(hl);
     }
-
-
 }
 
 // 償還表へのデータ通知用 共通データ
