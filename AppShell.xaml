@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:ALCM"
+       x:Class="ALCM.AppShell"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.TabBarBackgroundColor="WhiteSmoke"
+       Shell.TabBarTitleColor="DarkBlue"
+       Shell.TabBarUnselectedColor="LightSlateGray"
+       Shell.TabBarForegroundColor="DarkBlue">
+
+    <TabBar>
+        <ShellContent 
+            Title="Home"
+            Icon="home.svg"
+            ContentTemplate="{DataTemplate local:NewPage1}" />
+        <ShellContent
+            Title="Plan"
+            Icon="edit_document.png"
+            ContentTemplate="{DataTemplate local:NewPage2}" />
+        <ShellContent
+            Title="Chart"
+            Icon="add_chart.png"
+            ContentTemplate="{DataTemplate local:NewPage3}" />
+    </TabBar>
+
+</Shell>
