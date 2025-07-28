@@ -42,6 +42,7 @@
             HorizontalOptions="End"
             VerticalOptions="End"
             Margin="25"
-            x:Name="fabBtn"/>
+            x:Name="fabBtn"
+            Clicked="FabBtn_Clicked"/>
     </Grid>
 </ContentPage>

@@ -12,7 +12,7 @@ namespace ALCM
         public NewPage3()
         {
             InitializeComponent();
-            BindingContext = this;
+            BindingContext = new AmortizationViewModel();
         }
 
         private void OnAddClicked(object sender, EventArgs e)
@@ -50,18 +50,50 @@ namespace ALCM
                 AmortizationItems.Clear();
             }
         }
+
+        /// <summary>
+        /// 償還表を Excel に出力するボタン押下イベント。
+        /// Android ではアプリのデータディレクトリに固定ファイル名で保存します。
+        /// </summary>
+        private async void FabBtn_Clicked(object sender, EventArgs e)
+        {
+            if (BindingContext is AmortizationViewModel vm)
+            {
+                try
+                {
+                    // 保存先パスを構築
+                    string fileName = "shokan.xlsx";
+                    string folder = FileSystem.AppDataDirectory;
+                    string filePath = Path.Combine(folder, fileName);
+
+                    // Excel 出力実行
+                    await OutputExcel.SaveAmortizationAsync(vm.AmortizationItems, filePath);
+
+                    // 完了通知
+                    await DisplayAlert("エクスポート完了", $"償還表を {filePath} に保存しました。", "OK");
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("エラー", $"Excel 出力中にエラーが発生しました: {ex.Message}", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("データなし", "償還表データが見つかりませんでした。", "OK");
+            }
+        }
     }
 
-    // バインド用データモデル
-    public class AmortizationItem
-    {
-        public int 回数 { get; set; }
-        public DateTime 振替日 { get; set; }
-        public decimal 返済金額 { get; set; }
-        public decimal 元金額 { get; set; }
-        public decimal 利息額 { get; set; }
-        public decimal 残高 { get; set; }
-    }
+    //// バインド用データモデル
+    //public class AmortizationItem
+    //{
+    //    public int 回数 { get; set; }
+    //    public DateTime 振替日 { get; set; }
+    //    public decimal 返済金額 { get; set; }
+    //    public decimal 元金額 { get; set; }
+    //    public decimal 利息額 { get; set; }
+    //    public decimal 残高 { get; set; }
+    //}
 
 
 }
