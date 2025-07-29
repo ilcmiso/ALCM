@@ -1,6 +1,11 @@
 using System.Collections.ObjectModel;
 using ALCM.Models;
 using ALCM.ViewModels;
+#if ANDROID
+using Android.OS;
+using Android.Content;
+using Java.IO;
+#endif
 
 namespace ALCM
 {
@@ -31,12 +36,12 @@ namespace ALCM
             base.OnAppearing();
 
             var input = SharedLoanInputData.Current;
-            if (input != null)
+            if (input != null && BindingContext is AmortizationViewModel vm)
             {
                 var result = LoanCalculator.Generate(input);
-                AmortizationItems.Clear();
+                vm.AmortizationItems.Clear();
                 foreach (var item in result)
-                    AmortizationItems.Add(new AmortizationItem
+                    vm.AmortizationItems.Add(new AmortizationItem
                     {
                         âÒêî = item.âÒêî,
                         êUë÷ì˙ = item.êUë÷ì˙,
@@ -65,8 +70,16 @@ namespace ALCM
                     // ï€ë∂êÊÉpÉXÇç\íz
                     string fileName = "LoanRepay.xlsx";
                     string folder = FileSystem.AppDataDirectory;
-                    string filePath = Path.Combine(folder, fileName);
-
+                    string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
+#if ANDROID
+                    string? downloadsPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
+                    if (!string.IsNullOrEmpty(downloadsPath))
+                        filePath = Path.Combine(downloadsPath, fileName);
+#elif WINDOWS
+                    string? downloadsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+                    if (!string.IsNullOrEmpty(downloadsPath))
+                        filePath = Path.Combine(Path.Combine(downloadsPath, "Downloads"), fileName);
+#endif
                     // Excel èoóÕé¿çs
                     await OutputExcel.SaveAmortizationAsync(vm.AmortizationItems, filePath);
 
