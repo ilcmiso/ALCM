@@ -1,6 +1,6 @@
-using System;
 using System.Collections.ObjectModel;
-using Microsoft.Maui.Controls;
+using ALCM.Models;
+using ALCM.ViewModels;
 
 namespace ALCM
 {
@@ -25,6 +25,7 @@ namespace ALCM
             // 更新処理（再読み込み・再計算など）
         }
 
+        // 画面がロードされた際のイベント
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -62,7 +63,7 @@ namespace ALCM
                 try
                 {
                     // 保存先パスを構築
-                    string fileName = "shokan.xlsx";
+                    string fileName = "LoanRepay.xlsx";
                     string folder = FileSystem.AppDataDirectory;
                     string filePath = Path.Combine(folder, fileName);
 
@@ -83,17 +84,4 @@ namespace ALCM
             }
         }
     }
-
-    //// バインド用データモデル
-    //public class AmortizationItem
-    //{
-    //    public int 回数 { get; set; }
-    //    public DateTime 振替日 { get; set; }
-    //    public decimal 返済金額 { get; set; }
-    //    public decimal 元金額 { get; set; }
-    //    public decimal 利息額 { get; set; }
-    //    public decimal 残高 { get; set; }
-    //}
-
-
 }

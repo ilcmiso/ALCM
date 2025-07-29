@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
+using ALCM.Models;
 
-namespace ALCM
+namespace ALCM.ViewModels
 {
     /// <summary>
     /// 償還表画面用のビューモデル。
@@ -10,6 +11,6 @@ namespace ALCM
         /// <summary>
         /// 償還表のデータコレクション。
         /// </summary>
-        public ObservableCollection<AmortizationItem> AmortizationItems { get; } = new();
+        public ObservableCollection<AmortizationItem> AmortizationItems { get; } = [];
     }
 }

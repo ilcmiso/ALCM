@@ -1,4 +1,6 @@
-﻿namespace ALCM
+﻿using ALCM.Models;
+
+namespace ALCM
 {
     public class LoanInputData
     {

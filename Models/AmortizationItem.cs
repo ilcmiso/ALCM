@@ -1,6 +1,6 @@
 using System;
 
-namespace ALCM
+namespace ALCM.Models
 {
     /// <summary>
     /// 償還表の 1 行分のデータを表します。
