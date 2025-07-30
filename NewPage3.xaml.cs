@@ -61,7 +61,7 @@ namespace ALCM
         /// 償還表を Excel に出力するボタン押下イベント。
         /// Android ではアプリのデータディレクトリに固定ファイル名で保存します。
         /// </summary>
-        private async void FabBtn_Clicked(object sender, EventArgs e)
+        private async void BtnExcelOut_Clicked(object sender, EventArgs e)
         {
             if (BindingContext is AmortizationViewModel vm)
             {
@@ -83,12 +83,12 @@ namespace ALCM
                     // Excel 出力実行
                     await OutputExcel.SaveAmortizationAsync(vm.AmortizationItems, filePath);
 
-                    // 完了通知
-                    await DisplayAlert("エクスポート完了", $"償還表を {filePath} に保存しました。", "OK");
+                    // 出力完了後にファイルを開く確認ダイアログを表示
+                    await Common.ShowOpenFileDialogAsync(filePath);
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("エラー", $"Excel 出力中にエラーが発生しました: {ex.Message}", "OK");
+                    await DisplayAlert("エラー", $"出力中にエラーが発生しました: {ex.Message}", "OK");
                 }
             }
             else

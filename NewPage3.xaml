@@ -38,11 +38,11 @@
         </CollectionView.ItemTemplate>
     </CollectionView>
         
-    <Button Text="save"
+    <Button Text="Excel出力"
             HorizontalOptions="End"
             VerticalOptions="End"
             Margin="25"
-            x:Name="fabBtn"
-            Clicked="FabBtn_Clicked"/>
+            x:Name="FbtExcelOut"
+            Clicked="BtnExcelOut_Clicked"/>
     </Grid>
 </ContentPage>
