@@ -59,7 +59,6 @@ namespace ALCM
 
         /// <summary>
         /// 償還表を Excel に出力するボタン押下イベント。
-        /// Android ではアプリのデータディレクトリに固定ファイル名で保存します。
         /// </summary>
         private async void BtnExcelOut_Clicked(object sender, EventArgs e)
         {
@@ -82,6 +81,45 @@ namespace ALCM
 #endif
                     // Excel 出力実行
                     await OutputExcel.SaveAmortizationAsync(vm.AmortizationItems, filePath);
+
+                    // 出力完了後にファイルを開く確認ダイアログを表示
+                    await Common.ShowOpenFileDialogAsync(filePath);
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("エラー", $"出力中にエラーが発生しました: {ex.Message}", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("データなし", "償還表データが見つかりませんでした。", "OK");
+            }
+        }
+
+        /// <summary>
+        /// 償還表を PDF に出力するボタン押下イベント。
+        /// </summary>
+        private async void BtnPDFOut_Clicked(object sender, EventArgs e)
+        {
+            if (BindingContext is AmortizationViewModel vm)
+            {
+                try
+                {
+                    // 保存先パスを構築
+                    string fileName = "LoanRepay.xlsx";
+                    string folder = FileSystem.AppDataDirectory;
+                    string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
+#if ANDROID
+                    string? downloadsPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
+                    if (!string.IsNullOrEmpty(downloadsPath))
+                        filePath = Path.Combine(downloadsPath, fileName);
+#elif WINDOWS
+                    string? downloadsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+                    if (!string.IsNullOrEmpty(downloadsPath))
+                        filePath = Path.Combine(Path.Combine(downloadsPath, "Downloads"), fileName);
+#endif
+                    // PDF 出力実行
+                    await OutputPdf.SaveAmortizationAsync(vm.AmortizationItems, filePath);
 
                     // 出力完了後にファイルを開く確認ダイアログを表示
                     await Common.ShowOpenFileDialogAsync(filePath);
