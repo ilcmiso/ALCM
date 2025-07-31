@@ -106,7 +106,7 @@ namespace ALCM
                 try
                 {
                     // ï€ë∂êÊÉpÉXÇç\íz
-                    string fileName = "LoanRepay.xlsx";
+                    string fileName = "LoanRepay.pdf";
                     string folder = FileSystem.AppDataDirectory;
                     string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 #if ANDROID
