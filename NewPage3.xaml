@@ -47,11 +47,13 @@
 
             <Button Text="PDF"
                 x:Name="FbtPdfOut"
-                Clicked="BtnPDFOut_Clicked" />
+                Clicked="BtnExport_Clicked"
+                CommandParameter="PDF"/>
 
             <Button Text="Excel"
                 x:Name="FbtExcelOut"
-                Clicked="BtnExcelOut_Clicked" />
+                Clicked="BtnExport_Clicked"
+                CommandParameter="Excel"/>
         </VerticalStackLayout>
     </Grid>
 

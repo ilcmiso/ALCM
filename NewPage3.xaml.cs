@@ -57,71 +57,53 @@ namespace ALCM
             }
         }
 
-        /// <summary>
-        /// 償還表を Excel に出力するボタン押下イベント。
-        /// </summary>
-        private async void BtnExcelOut_Clicked(object sender, EventArgs e)
+        private async void BtnExport_Clicked(object sender, EventArgs e)
         {
-            if (BindingContext is AmortizationViewModel vm)
+            if (BindingContext is AmortizationViewModel vm && sender is Button btn)
             {
+                // ボタンから渡されたCommandParameterを参照
+                string? format = btn.CommandParameter as string;
+                if (string.IsNullOrEmpty(format))
+                    return; // パラメータが無ければ何もしない
+
                 try
                 {
-                    // 保存先パスを構築
-                    string fileName = "LoanRepay.xlsx";
-                    string folder = FileSystem.AppDataDirectory;
+                    // 1. ファイル名と拡張子を決定
+                    string extension = format.Equals("pdf", StringComparison.CurrentCultureIgnoreCase) ? "pdf" : "xlsx";
+                    string fileName = $"LoanRepay.{extension}";
+
+                    // 2. 保存先パスを生成（共通処理）
                     string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 #if ANDROID
-                    string? downloadsPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
-                    if (!string.IsNullOrEmpty(downloadsPath))
-                        filePath = Path.Combine(downloadsPath, fileName);
-#elif WINDOWS
-                    string? downloadsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-                    if (!string.IsNullOrEmpty(downloadsPath))
-                        filePath = Path.Combine(Path.Combine(downloadsPath, "Downloads"), fileName);
-#endif
-                    // Excel 出力実行
-                    await OutputExcel.SaveAmortizationAsync(vm.AmortizationItems, filePath);
-
-                    // 出力完了後にファイルを開く確認ダイアログを表示
-                    await Common.ShowOpenFileDialogAsync(filePath);
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("エラー", $"出力中にエラーが発生しました: {ex.Message}", "OK");
-                }
-            }
-            else
+            string? downloadsPath = Android.OS.Environment.GetExternalStoragePublicDirectory(
+                                        Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
+            if (!string.IsNullOrEmpty(downloadsPath))
             {
-                await DisplayAlert("データなし", "償還表データが見つかりませんでした。", "OK");
+                filePath = Path.Combine(downloadsPath, fileName);
             }
-        }
-
-        /// <summary>
-        /// 償還表を PDF に出力するボタン押下イベント。
-        /// </summary>
-        private async void BtnPDFOut_Clicked(object sender, EventArgs e)
-        {
-            if (BindingContext is AmortizationViewModel vm)
-            {
-                try
-                {
-                    // 保存先パスを構築
-                    string fileName = "LoanRepay.pdf";
-                    string folder = FileSystem.AppDataDirectory;
-                    string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
-#if ANDROID
-                    string? downloadsPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
-                    if (!string.IsNullOrEmpty(downloadsPath))
-                        filePath = Path.Combine(downloadsPath, fileName);
 #elif WINDOWS
-                    string? downloadsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-                    if (!string.IsNullOrEmpty(downloadsPath))
-                        filePath = Path.Combine(Path.Combine(downloadsPath, "Downloads"), fileName);
+            string? userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            if (!string.IsNullOrEmpty(userProfile))
+            {
+                filePath = Path.Combine(Path.Combine(userProfile, "Downloads"), fileName);
+            }
 #endif
-                    // PDF 出力実行
-                    await OutputPdf.SaveAmortizationAsync(vm.AmortizationItems, filePath);
 
-                    // 出力完了後にファイルを開く確認ダイアログを表示
+                    // 3. 出力処理の実行（形式に応じて切り替え）
+                    if (format.Equals("EXCEL", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        await OutputExcel.SaveAmortizationAsync(vm.AmortizationItems, filePath);
+                    }
+                    else if (format.Equals("PDF", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        await OutputPdf.SaveAmortizationAsync(vm.AmortizationItems, filePath);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException($"未対応の出力形式です: {format}");
+                    }
+
+                    // 4. 出力完了後、ファイルを開くか確認するダイアログを表示（共通処理）
                     await Common.ShowOpenFileDialogAsync(filePath);
                 }
                 catch (Exception ex)
