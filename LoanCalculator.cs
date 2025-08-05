@@ -103,5 +103,40 @@ namespace ALCM
             }
             return result;
         }
+
+        // <summary>
+        // 単一の金利期間に対して月々の返済額を算出。
+        // 元本、年数、利率および返済方法から一月あたりの返済額を求め、整数で返却する。
+        // </summary>
+        // <param name="loanAmount">借入元本（円）</param>
+        // <param name="years">年数</param>
+        // <param name="rate">年率（%）</param>
+        // <param name="repaymentType">返済方法: "元利均等" または "元金均等"</param>
+        // <returns>月々の返済額（四捨五入された整数）。条件が不正な場合は0を返す。</returns>
+        public static int CalculateMonthlyPayment(int loanAmount, int years, double rate, string repaymentType)
+        {
+            // 入力チェック
+            if (loanAmount <= 0 || years <= 0 || rate <= 0)
+            {
+                return 0;
+            }
+            // 月利率
+            double monthlyRate = Math.Pow(1 + rate / 100.0, 1.0 / 12.0) - 1;
+            int months = years * 12;
+            double payment;
+
+            if (repaymentType == "元利均等")
+            {
+                // 元利均等：ローン期間内で毎月同額を支払う
+                double pow = Math.Pow(1 + monthlyRate, months);
+                payment = loanAmount * monthlyRate * pow / (pow - 1);
+            }
+            else
+            {
+                // 元金均等：元本均等返済＋その月の利息（おおよその平均）
+                payment = loanAmount / (double)months + (loanAmount * monthlyRate);
+            }
+            return (int)Math.Round(payment);
+        }
     }
 }

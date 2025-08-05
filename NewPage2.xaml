@@ -131,6 +131,30 @@
             <Entry x:Name="Entry_AgentFee" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" />
         </Grid>
         
-        
+        <!-- 毎月の返済金額の表示エリア -->
+        <VerticalStackLayout x:Name="Layout_MonthlyRepayments" Spacing="5" Padding="0,10,0,0">
+            <!-- 見出し -->
+            <Label x:Name="Label_MonthlyRepaymentHeader" Text="毎月の返済金額" FontAttributes="Bold" IsVisible="False" />
+            <!-- 第1段階の返済金額 -->
+            <HorizontalStackLayout x:Name="Layout_Payment1" IsVisible="False" Spacing="10">
+                <Label Text="段階金利1" />
+                <Label x:Name="Label_Payment1" />
+            </HorizontalStackLayout>
+            <!-- 第2段階の返済金額 -->
+            <HorizontalStackLayout x:Name="Layout_Payment2" IsVisible="False" Spacing="10">
+                <Label Text="段階金利2" />
+                <Label x:Name="Label_Payment2" />
+            </HorizontalStackLayout>
+            <!-- 第3段階の返済金額 -->
+            <HorizontalStackLayout x:Name="Layout_Payment3" IsVisible="False" Spacing="10">
+                <Label Text="段階金利3" />
+                <Label x:Name="Label_Payment3" />
+            </HorizontalStackLayout>
+            <!-- 第4段階の返済金額 -->
+            <HorizontalStackLayout x:Name="Layout_Payment4" IsVisible="False" Spacing="10">
+                <Label Text="段階金利4" />
+                <Label x:Name="Label_Payment4" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
