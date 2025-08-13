@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-  x:Class="ALCM.NewPage2"
-  Shell.NavBarIsVisible="False"
-  xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ALCM.Models"
+             x:Class="ALCM.NewPage2"
+             Shell.NavBarIsVisible="False"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <VerticalStackLayout Padding="20" Spacing="10">
 
@@ -134,7 +134,7 @@
         <!-- 毎月の返済金額の表示エリア -->
         <VerticalStackLayout x:Name="Layout_MonthlyRepayments" Spacing="5" Padding="0,10,0,0">
             <!-- 見出し -->
-            <Label x:Name="Label_MonthlyRepaymentHeader" Text="毎月の返済金額" FontAttributes="Bold" IsVisible="False" />
+            <Label x:Name="Label_MonthlyRepaymentHeader" Text="毎月の返済金額" FontAttributes="Bold" IsVisible="True" />
             <!-- 第1段階の返済金額 -->
             <HorizontalStackLayout x:Name="Layout_Payment1" IsVisible="False" Spacing="10">
                 <Label Text="段階金利1" />

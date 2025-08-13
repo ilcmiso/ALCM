@@ -38,6 +38,7 @@ namespace ALCM
             var input = SharedLoanInputData.Current;
             if (input != null && BindingContext is AmortizationViewModel vm)
             {
+                // 資金計算の一覧を作成
                 var result = LoanCalculator.Generate(input);
                 vm.AmortizationItems.Clear();
                 foreach (var item in result)
@@ -57,6 +58,7 @@ namespace ALCM
             }
         }
 
+        // Excel,PDF出力ボタン押下イベント
         private async void BtnExport_Clicked(object sender, EventArgs e)
         {
             if (BindingContext is AmortizationViewModel vm && sender is Button btn)
