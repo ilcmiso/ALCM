@@ -142,6 +142,13 @@ public partial class NewPage2 : ContentPage
     {
         UpdateLoanInputData();
 
+        // •ÔÏ‹àŠz‚Ì•\¦‚ğ”ñ•\¦‚É‚µ‚Ä‚¨‚­
+        Layout_Payment1.IsVisible = false;
+        Layout_Payment2.IsVisible = false;
+        Layout_Payment3.IsVisible = false;
+        Layout_Payment4.IsVisible = false;
+
+        // ‹¤’Êƒf[ƒ^‚©‚ç“ü—Í’l‚ğæ“¾
         var input = SharedLoanInputData.Current;
         if (input == null) return;
 
@@ -150,20 +157,21 @@ public partial class NewPage2 : ContentPage
         Layout_Payment1.IsVisible = true;
         Label_Payment1.Text = string.Format("{0:N0}‰~", result[0].•ÔÏ‹àŠz);
 
-        if (input.Years2 > 0)
+        // Še’iŠK‚Ì•ÔÏ‹àŠz‚ğ•\¦
+        if (input.Years2 > 0 & input.InterestRate2 > 0)
         {
             Layout_Payment2.IsVisible = true;
-            Label_Payment2.Text = string.Format("{0:N0}‰~", result[input.Years2 * 12].•ÔÏ‹àŠz);
+            Label_Payment2.Text = string.Format("{0:N0}‰~", result[(input.Years1) * 12].•ÔÏ‹àŠz);
         }
-        if (input.Years3 > 0)
+        if (input.Years3 > 0 & input.InterestRate3 > 0)
         {
             Layout_Payment3.IsVisible = true;
-            Label_Payment3.Text = string.Format("{0:N0}‰~", result[input.Years3 * 12].•ÔÏ‹àŠz);
+            Label_Payment3.Text = string.Format("{0:N0}‰~", result[(input.Years1 + input.Years2) * 12].•ÔÏ‹àŠz);
         }
-        if (input.Years4 > 0)
+        if (input.Years4 > 0 & input.InterestRate4 >0 )
         {
             Layout_Payment4.IsVisible = true;
-            Label_Payment4.Text = string.Format("{0:N0}‰~", result[input.Years4 * 12].•ÔÏ‹àŠz);
+            Label_Payment4.Text = string.Format("{0:N0}‰~", result[(input.Years1 + input.Years2 + input.Years3) * 12].•ÔÏ‹àŠz);
         }
     }
 
