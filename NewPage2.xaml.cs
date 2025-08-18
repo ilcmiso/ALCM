@@ -148,16 +148,22 @@ public partial class NewPage2 : ContentPage
         Layout_Payment3.IsVisible = false;
         Layout_Payment4.IsVisible = false;
 
-        // 共通データから入力値を取得
+        // ユーザー入力値を取得
         var input = SharedLoanInputData.Current;
         if (input == null) return;
 
-        // 資金計算の一覧を作成
+        // 資金計算の計算をして結果を取得
         var result = LoanCalculator.Generate(input);
-        Layout_Payment1.IsVisible = true;
-        Label_Payment1.Text = string.Format("{0:N0}円", result[0].返済金額);
+        if (result != null && result.Count == 0) return;
+
+        // 返済合計額・実質年率の表示
+        Label_TotalPaymentsValue1.Text = string.Format("{0:N0}円", result[^1].返済合計額);
+        Label_TotalPaymentsValue2.Text = string.Format("{0:N0}円", result[^1].利息合計額);
+        Label_RealInterestRateValue.Text = string.Format("{0:F3}％", result[^1].実質年率);
 
         // 各段階の返済金額を表示
+        Layout_Payment1.IsVisible = true;
+        Label_Payment1.Text = string.Format("{0:N0}円", result[0].返済金額);
         if (input.Years2 > 0 & input.InterestRate2 > 0)
         {
             Layout_Payment2.IsVisible = true;
@@ -174,68 +180,6 @@ public partial class NewPage2 : ContentPage
             Label_Payment4.Text = string.Format("{0:N0}円", result[(input.Years1 + input.Years2 + input.Years3) * 12].返済金額);
         }
     }
-
-    ///// <summary>
-    ///// 全段階の毎月の返済金額を計算し、表示を更新する。
-    ///// 段階ごとの年数が 0 以下の場合はその段階のラベルを非表示とする。
-    ///// </summary>
-    //private void UpdateRepayments()
-    //{
-    //    // 借入金額は万円単位で入力されるため、実際の元本は ×10000
-    //    if (!double.TryParse(Entry_LoanAmount.Text, out var loanAmountTenThousand))
-    //    {
-    //        // 数値に変換できなければ何もしない
-    //        return;
-    //    }
-    //    // 金額を円単位に変換
-    //    int principal = (int)Math.Round(loanAmountTenThousand * 10000.0);
-
-    //    bool anyVisible = false;
-
-    //    // 返済方法を日本語文字列に変換
-    //    string repaymentType = (RB_Ganri?.IsChecked ?? true) ? "元利均等" : "元金均等";
-
-    //    // 段階1
-    //    UpdateTier(principal, Entry_LoanYears.Text, Entry_InterestRate.Text, repaymentType, Layout_Payment1, Label_Payment1, ref anyVisible);
-    //    // 段階2
-    //    UpdateTier(principal, Entry_LoanYears2.Text, Entry_InterestRate2.Text, repaymentType, Layout_Payment2, Label_Payment2, ref anyVisible);
-    //    // 段階3
-    //    UpdateTier(principal, Entry_LoanYears3.Text, Entry_InterestRate3.Text, repaymentType, Layout_Payment3, Label_Payment3, ref anyVisible);
-    //    // 段階4
-    //    UpdateTier(principal, Entry_LoanYears4.Text, Entry_InterestRate4.Text, repaymentType, Layout_Payment4, Label_Payment4, ref anyVisible);
-
-    //    // 見出し自体の表示
-    //    Label_MonthlyRepaymentHeader.IsVisible = anyVisible;
-    //}
-
-    ///// <summary>
-    ///// 指定した年数・金利の組み合わせで毎月の返済金額を計算し、UI に反映する。
-    ///// 返済方法はラジオボタンの状態から取得する。
-    ///// </summary>
-    ///// <param name="principal">借入元本（円）</param>
-    ///// <param name="yearsText">年数の文字列</param>
-    ///// <param name="rateText">金利の文字列（年率%）</param>
-    ///// <param name="layout">表示レイアウト（水平）</param>
-    ///// <param name="paymentLabel">返済金額を表示するラベル</param>
-    ///// <param name="anyVisible">少なくとも1件表示したかどうかを呼び出し元で保持するフラグ</param>
-    //private void UpdateTier(int principal, string yearsText, string rateText, string repaymentType, HorizontalStackLayout layout, Label paymentLabel, ref bool anyVisible)
-    //{
-    //    // 年数と金利を数値に変換し、年数が 0 以下または金利が負なら非表示
-    //    if (int.TryParse(yearsText, out var years) && double.TryParse(rateText, out var rate) && years > 0 && rate > 0)
-    //    {
-    //        // LoanCalculator を利用して月々の返済額を取得
-    //        int monthlyPayment = LoanCalculator.CalculateMonthlyPayment(principal, years, rate, repaymentType);
-    //        // カンマ区切りフォーマットを適用
-    //        paymentLabel.Text = string.Format("{0:N0}円", monthlyPayment);
-    //        layout.IsVisible = true;
-    //        anyVisible = true;
-    //    }
-    //    else
-    //    {
-    //        // 該当段階を非表示
-    //        layout.IsVisible = false;
-    //    }
-    //}
 }
 
 // 償還表へのデータ通知用 共通データ

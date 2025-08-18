@@ -133,42 +133,75 @@
 
         <!-- 返済合計の表示エリア -->
         <VerticalStackLayout x:Name="Layout_MonthlyRepayments2" Spacing="5" Padding="30,10,0,0">
-            <!-- 見出し -->
-            <Label x:Name="Label_TotalPaymentsTitle" Text="■ 返済合計金額" FontAttributes="Bold" Margin="-20,0,0,5"/>
-            <HorizontalStackLayout x:Name="Layout_TotalPayment1" IsVisible="True" Spacing="10">
-                <Label x:Name="Label_TotalPayments1" Text="返済合計額" />
-                <Label x:Name="Label_TotalPaymentsValue1" Text="aaa"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout x:Name="Layout_TotalPayment2" IsVisible="True" Spacing="10">
-                <Label x:Name="Label_TotalPayments2" Text="利息合計額" />
-                <Label x:Name="Label_TotalPaymentsValue2" Text="bbb"/>
-            </HorizontalStackLayout>
+            <Label x:Name="Label_TotalPaymentsTitle" Text="■ 返済合計金額" FontAttributes="Bold" Margin="-20,0,0,5" TextColor="LightCoral"/>
+
+            <!-- 1行目 -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="返済合計額" Grid.Column="0" />
+                <Label x:Name="Label_TotalPaymentsValue1"
+               Grid.Column="1"
+               HorizontalTextAlignment="End" />
+            </Grid>
+
+            <!-- 2行目 -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="利息合計額" Grid.Column="0" />
+                <Label x:Name="Label_TotalPaymentsValue2"
+               Grid.Column="1"
+               HorizontalTextAlignment="End" />
+            </Grid>
+
+            <!-- 3行目 -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="実質年率 ※IRR法" Grid.Column="0" />
+                <Label x:Name="Label_RealInterestRateValue"
+               Grid.Column="1"
+               HorizontalTextAlignment="End" />
+            </Grid>
         </VerticalStackLayout>
 
         <!-- 毎月の返済金額の表示エリア -->
-        <VerticalStackLayout x:Name="Layout_MonthlyRepayments" Spacing="5" Padding="30,10,0,0" >
+        <VerticalStackLayout x:Name="Layout_MonthlyRepayments" Spacing="5" Padding="30,10,0,0">
             <!-- 見出し -->
-            <Label x:Name="Label_MonthlyRepaymentHeader" Text="■ 毎月の返済金額" FontAttributes="Bold" IsVisible="True" Margin="-20,0,0,5"/>
+            <Label x:Name="Label_MonthlyRepaymentHeader" Text="■ 毎月の返済金額" FontAttributes="Bold" Margin="-20,0,0,5" TextColor="LightCoral"/>
+
             <!-- 第1段階の返済金額 -->
-            <HorizontalStackLayout x:Name="Layout_Payment1" IsVisible="False" Spacing="10">
-                <Label Text="段階金利1" />
-                <Label x:Name="Label_Payment1" />
-            </HorizontalStackLayout>
+            <!-- 左列はラベル幅に合わせて自動、右列は残り幅いっぱいで右寄せ -->
+            <Grid x:Name="Layout_Payment1" IsVisible="False" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="段階金利1" Grid.Column="0" />
+                <Label x:Name="Label_Payment1"
+               Grid.Column="1"
+               HorizontalTextAlignment="End"
+               LineBreakMode="NoWrap" />
+            </Grid>
+
             <!-- 第2段階の返済金額 -->
-            <HorizontalStackLayout x:Name="Layout_Payment2" IsVisible="False" Spacing="10">
-                <Label Text="段階金利2" />
-                <Label x:Name="Label_Payment2" />
-            </HorizontalStackLayout>
+            <Grid x:Name="Layout_Payment2" IsVisible="False" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="段階金利2" Grid.Column="0" />
+                <Label x:Name="Label_Payment2"
+               Grid.Column="1"
+               HorizontalTextAlignment="End"
+               LineBreakMode="NoWrap" />
+            </Grid>
+
             <!-- 第3段階の返済金額 -->
-            <HorizontalStackLayout x:Name="Layout_Payment3" IsVisible="False" Spacing="10">
-                <Label Text="段階金利3" />
-                <Label x:Name="Label_Payment3" />
-            </HorizontalStackLayout>
+            <Grid x:Name="Layout_Payment3" IsVisible="False" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="段階金利3" Grid.Column="0" />
+                <Label x:Name="Label_Payment3"
+               Grid.Column="1"
+               HorizontalTextAlignment="End"
+               LineBreakMode="NoWrap" />
+            </Grid>
+
             <!-- 第4段階の返済金額 -->
-            <HorizontalStackLayout x:Name="Layout_Payment4" IsVisible="False" Spacing="10">
-                <Label Text="段階金利4" />
-                <Label x:Name="Label_Payment4" />
-            </HorizontalStackLayout>
+            <Grid x:Name="Layout_Payment4" IsVisible="False" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="段階金利4" Grid.Column="0" />
+                <Label x:Name="Label_Payment4"
+               Grid.Column="1"
+               HorizontalTextAlignment="End"
+               LineBreakMode="NoWrap" />
+            </Grid>
         </VerticalStackLayout>
+
     </VerticalStackLayout>
 </ContentPage>
