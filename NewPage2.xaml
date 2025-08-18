@@ -130,11 +130,25 @@
             <Label Text="仲介手数料（万円）" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center" />
             <Entry x:Name="Entry_AgentFee" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" />
         </Grid>
-        
-        <!-- 毎月の返済金額の表示エリア -->
-        <VerticalStackLayout x:Name="Layout_MonthlyRepayments" Spacing="5" Padding="0,10,0,0">
+
+        <!-- 返済合計の表示エリア -->
+        <VerticalStackLayout x:Name="Layout_MonthlyRepayments2" Spacing="5" Padding="30,10,0,0">
             <!-- 見出し -->
-            <Label x:Name="Label_MonthlyRepaymentHeader" Text="毎月の返済金額" FontAttributes="Bold" IsVisible="True" />
+            <Label x:Name="Label_TotalPaymentsTitle" Text="■ 返済合計金額" FontAttributes="Bold" Margin="-20,0,0,5"/>
+            <HorizontalStackLayout x:Name="Layout_TotalPayment1" IsVisible="True" Spacing="10">
+                <Label x:Name="Label_TotalPayments1" Text="返済合計額" />
+                <Label x:Name="Label_TotalPaymentsValue1" Text="aaa"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout x:Name="Layout_TotalPayment2" IsVisible="True" Spacing="10">
+                <Label x:Name="Label_TotalPayments2" Text="利息合計額" />
+                <Label x:Name="Label_TotalPaymentsValue2" Text="bbb"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- 毎月の返済金額の表示エリア -->
+        <VerticalStackLayout x:Name="Layout_MonthlyRepayments" Spacing="5" Padding="30,10,0,0" >
+            <!-- 見出し -->
+            <Label x:Name="Label_MonthlyRepaymentHeader" Text="■ 毎月の返済金額" FontAttributes="Bold" IsVisible="True" Margin="-20,0,0,5"/>
             <!-- 第1段階の返済金額 -->
             <HorizontalStackLayout x:Name="Layout_Payment1" IsVisible="False" Spacing="10">
                 <Label Text="段階金利1" />
