@@ -1,13 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ALCM.Models"
              x:Class="ALCM.NewPage1"
-             Shell.NavBarIsVisible="False">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            FontFamily="FontRegular"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Shell.NavBarIsVisible="False"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <!-- 画面全体を縦方向に並べる -->
+    <StackLayout Orientation="Vertical"
+                 Padding="10"
+                 Spacing="10">
+
+        <!-- 顧客リスト。CollectionViewはスクロール可能で選択もできる:contentReference[oaicite:0]{index=0} -->
+        <CollectionView x:Name="customerList"
+                        ItemsSource="{Binding CustomerList}" 
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
+            <!-- ヘッダーで列名を表示 -->
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="*,*,*,*"
+                      Padding="0,0,0,5">
+                    <Label Text="物件/PRJ" Grid.Column="0" />
+                    <Label Text="号室" Grid.Column="1" />
+                    <Label Text="顧客名" Grid.Column="2" />
+                    <Label Text="進捗" Grid.Column="3" />
+                </Grid>
+            </CollectionView.Header>
+
+            <!-- 行のテンプレート。Gridで4列並べる -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,*,*,*"
+                          Padding="0,4"
+                          x:Name="RowGrid">
+                        <!-- 選択時に背景色を変えるトリガー -->
+                        <Grid.Triggers>
+                            <DataTrigger TargetType="Grid"
+                                         Binding="{Binding ., 
+                                                   Converter={StaticResource SelectedItemComparer}, 
+                                                   ConverterParameter={x:Reference Name=customerList}}" 
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="LightBlue" />
+                            </DataTrigger>
+                        </Grid.Triggers>
+
+                        <!-- 各列にバインド -->
+                        <Label Text="{Binding PropertyName}" Grid.Column="0" />
+                        <Label Text="{Binding RoomNumber}" Grid.Column="1" />
+                        <Label Text="{Binding CustomerName}" Grid.Column="2" />
+                        <Label Text="{Binding Progress}" Grid.Column="3" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- 選択された顧客を編集/削除するためのボタンを下に並べる -->
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="Center"
+                     Spacing="50">
+            <!-- 編集ボタン。SelectedCustomerがnullでない時だけ有効 -->
+            <Button Text="Edit"
+                Command="{Binding EditCommand}"/>
+
+            <!-- 削除ボタン。SelectedCustomerがnullでない時だけ有効 -->
+            <Button Text="Del"
+                    Command="{Binding DeleteCommand}"
+                    IsEnabled="{Binding SelectedCustomer, Converter={StaticResource NullToBoolConverter}}" />
+        </StackLayout>
+    </StackLayout>
 </ContentPage>

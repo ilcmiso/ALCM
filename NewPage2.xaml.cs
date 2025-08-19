@@ -154,12 +154,12 @@ public partial class NewPage2 : ContentPage
 
         // ‘‹àŒvZ‚ÌŒvZ‚ğ‚µ‚ÄŒ‹‰Ê‚ğæ“¾
         var result = LoanCalculator.Generate(input);
-        if (result != null && result.Count == 0) return;
+        if (result.Count == 0) return;
 
         // •ÔÏ‡ŒvŠzEÀ¿”N—¦‚Ì•\¦
-        Label_TotalPaymentsValue1.Text = string.Format("{0:N0}‰~", result[^1].•ÔÏ‡ŒvŠz);
-        Label_TotalPaymentsValue2.Text = string.Format("{0:N0}‰~", result[^1].—˜‘§‡ŒvŠz);
-        Label_RealInterestRateValue.Text = string.Format("{0:F3}“", result[^1].À¿”N—¦);
+        Label_TotalPaymentsValue1.Text = $"{result[^1].•ÔÏ‡ŒvŠz:N0}‰~";
+        Label_TotalPaymentsValue2.Text = $"{result[^1].—˜‘§‡ŒvŠz:N0}‰~";
+        Label_RealInterestRateValue.Text = $"{result[^1].À¿”N—¦:F3}‰~";
 
         // Še’iŠK‚Ì•ÔÏ‹àŠz‚ğ•\¦
         Layout_Payment1.IsVisible = true;
