@@ -18,7 +18,7 @@
                         SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
             <!-- ヘッダーで列名を表示 -->
             <CollectionView.Header>
-                <Grid ColumnDefinitions="*,*,*,*"
+                <Grid ColumnDefinitions="1.2*,0.5*,0.8*,0.8*"
                       Padding="0,0,0,5">
                     <Label Text="物件/PRJ" Grid.Column="0" />
                     <Label Text="号室" Grid.Column="1" />
@@ -30,7 +30,7 @@
             <!-- 行のテンプレート。Gridで4列並べる -->
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="*,*,*,*"
+                    <Grid ColumnDefinitions="1.2*,0.5*,0.8*,0.8*"
                           Padding="0,4"
                           x:Name="RowGrid">
                         <!-- 選択時に背景色を変えるトリガー -->
