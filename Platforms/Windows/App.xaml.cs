@@ -21,7 +21,7 @@ namespace ALCM.WinUI
             this.InitializeComponent();
 
             int WindowWidth = 393;
-            int WindowHeight = 851;
+            int WindowHeight = 620;
             Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
             {
                 var mauiWindow = handler.VirtualView;

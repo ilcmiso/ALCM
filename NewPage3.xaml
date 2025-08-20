@@ -40,10 +40,10 @@
 
         <!-- 出力ボタン配置 -->
         <VerticalStackLayout
-        HorizontalOptions="Start"
-        VerticalOptions="End"
-        Spacing="10"
-        Margin="25">
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Spacing="10"
+            Margin="25">
 
             <Button Text="PDF"
                 x:Name="FbtPdfOut"
