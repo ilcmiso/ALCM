@@ -24,7 +24,7 @@
 		<ApplicationTitle>ALCM</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.alcm</ApplicationId>
+		<ApplicationId>com.ilcsoft.alcm</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -39,46 +39,48 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Title>ALCM</Title>
+		<PackageIcon>AppIcon.png</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
 	  <NoWarn>1701;1702;</NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
 	  <NoWarn></NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|AnyCPU'">
 	  <NoWarn></NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows10.0.19041.0|AnyCPU'">
 	  <NoWarn></NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <NoWarn>1701;1702;</NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
 	  <NoWarn></NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|AnyCPU'">
 	  <NoWarn></NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows10.0.19041.0|AnyCPU'">
 	  <NoWarn></NoWarn>
-	  <ApplicationId>com.ilc-soft.alcm</ApplicationId>
+	  <ApplicationId>com.ilcsoft.alcm</ApplicationId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -105,6 +107,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="PDFsharp" Version="6.2.1" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -121,6 +124,17 @@
 
 	<ItemGroup>
 	  <Folder Include="ViewModels\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Resources\AppIcon\AppIcon.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="Resources\AppIcon\appicon.svg">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
