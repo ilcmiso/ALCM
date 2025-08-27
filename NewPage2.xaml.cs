@@ -159,7 +159,7 @@ public partial class NewPage2 : ContentPage
         // 返済合計額・実質年率の表示
         Label_TotalPaymentsValue1.Text = $"{result[^1].返済合計額:N0}円";
         Label_TotalPaymentsValue2.Text = $"{result[^1].利息合計額:N0}円";
-        Label_RealInterestRateValue.Text = $"{result[^1].実質年率:F3}円";
+        Label_RealInterestRateValue.Text = $"{result[^1].実質年率:F3}％";
 
         // 各段階の返済金額を表示
         Layout_Payment1.IsVisible = true;
