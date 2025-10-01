@@ -1,13 +1,26 @@
 namespace ALCM;
+
+using ALCM.Data;
 using ALCM.Models;
 using System.Collections.ObjectModel;
 
 public partial class NewPage2 : ContentPage
 {
-	public NewPage2()
+    private readonly LoanDatabase _loanDatabase;
+    
+    public NewPage2()
 	{
 		InitializeComponent();
         UpdateRepayments();
+
+        // DI から LoanDatabase インスタンスを取得する
+        // Application.Current.Handler?.MauiContext でサービスプロバイダを参照
+        _loanDatabase = Application.Current?.Handler?.MauiContext?.Services?.GetService<LoanDatabase>()
+                        ?? throw new InvalidOperationException("LoanDatabase が取得できませんでした。DI の登録を確認してください。");
+
+        // ページが閉じられる際に保存処理を実行する
+        this.Disappearing += async (_, __) => await SaveLoanAsync();
+
     }
 
     // 画面がアンロードされたとき
@@ -179,6 +192,94 @@ public partial class NewPage2 : ContentPage
             Layout_Payment4.IsVisible = true;
             Label_Payment4.Text = string.Format("{0:N0}円", result[(input.Years1 + input.Years2 + input.Years3) * 12].返済金額);
         }
+    }
+
+
+    /// <summary>
+    /// 入力値をデータベースへ保存する。
+    /// 物件名、借入金額、段階ごとの借入年数と利率、契約日と返済開始日を登録する。
+    /// </summary>
+    private async Task SaveLoanAsync()
+    {
+        try
+        {
+            // 物件名（空の場合は空文字）
+            string propertyName = Entry_PropertyName?.Text?.Trim() ?? string.Empty;
+
+            // 借入金額を整数で取得（数値でない場合は 0 とする）
+            int loanAmount = 0;
+            if (!string.IsNullOrWhiteSpace(Entry_LoanAmount?.Text) &&
+                int.TryParse(Entry_LoanAmount.Text.Replace(",", string.Empty), out var amount))
+            {
+                loanAmount = amount;
+            }
+
+            // 契約日と返済開始日
+            DateTime agreementDate = DP_ExDate?.Date ?? DateTime.Today;
+            DateTime startDate = DP_RepayDate?.Date ?? DateTime.Today;
+
+            // 返済方法の取得（RadioButton の状態）
+            string repaymentType = (RB_Ganri?.IsChecked ?? false) ? "元利均等" : "元金均等";
+
+            // LoanInfo エンティティを作成
+            var loan = new LoanInfo
+            {
+                LoanName = propertyName,
+                LoanAmount = loanAmount,
+                AgreementDate = agreementDate,
+                StartDate = startDate,
+                RepaymentType = repaymentType
+            };
+
+            // 段階毎の借入年数と利率を取得
+            var tiers = new List<LoanTier>();
+            AddTierIfValid(tiers, Entry_LoanYears, Entry_InterestRate, Layout_Tier1?.IsVisible ?? true);
+            AddTierIfValid(tiers, Entry_LoanYears2, Entry_InterestRate2, Layout_Tier2?.IsVisible ?? false);
+            AddTierIfValid(tiers, Entry_LoanYears3, Entry_InterestRate3, Layout_Tier3?.IsVisible ?? false);
+            AddTierIfValid(tiers, Entry_LoanYears4, Entry_InterestRate4, Layout_Tier4?.IsVisible ?? false);
+
+            // DB へ登録（非同期）
+            await _loanDatabase.InsertLoanAsync(loan, tiers);
+        }
+        catch (Exception ex)
+        {
+            // TODO: ログ出力やエラーハンドリングが必要であればここに追加する
+            System.Diagnostics.Debug.WriteLine($"データ保存中にエラーが発生しました: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Entry から段階情報を読み取り、妥当であればリストへ追加する。
+    /// </summary>
+    /// <param name="tiers">追加先のリスト</param>
+    /// <param name="yearsEntry">年数入力欄</param>
+    /// <param name="rateEntry">利率入力欄</param>
+    /// <param name="isVisible">該当段階が画面上表示されているかどうか</param>
+    private static void AddTierIfValid(List<LoanTier> tiers, Entry yearsEntry, Entry rateEntry, bool isVisible)
+    {
+        if (!isVisible) return;
+        // 年数を整数に変換
+        int years = 0;
+        if (yearsEntry != null && !string.IsNullOrWhiteSpace(yearsEntry.Text) &&
+            int.TryParse(yearsEntry.Text.Replace(",", string.Empty), out var y))
+        {
+            years = y;
+        }
+        // 利率を倍精度に変換
+        double rate = 0;
+        if (rateEntry != null && !string.IsNullOrWhiteSpace(rateEntry.Text) &&
+            double.TryParse(rateEntry.Text.Replace("%", string.Empty), out var r))
+        {
+            rate = r;
+        }
+        // 年数または利率が 0 以下の場合はスキップ
+        if (years <= 0 || rate <= 0) return;
+        // LoanTier オブジェクトを作成（LoanId と TierIndex は InsertLoanAsync で設定される）
+        tiers.Add(new LoanTier
+        {
+            Years = years,
+            InterestRate = rate
+        });
     }
 }
 
