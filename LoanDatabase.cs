@@ -98,8 +98,8 @@ namespace ALCM.Data
 
         public string LoanName { get; set; } = "";
         public int LoanAmount { get; set; }
-        public DateTime AgreementDate { get; set; }
-        public DateTime StartDate { get; set; }
+        public string AgreementDate { get; set; } = "";
+        public string StartDate { get; set; } = "";
         public string RepaymentType { get; set; } = "";
     }
 

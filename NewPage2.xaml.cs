@@ -226,8 +226,8 @@ public partial class NewPage2 : ContentPage
             {
                 LoanName = propertyName,
                 LoanAmount = loanAmount,
-                AgreementDate = agreementDate,
-                StartDate = startDate,
+                AgreementDate = agreementDate.ToString("yyyy/MM/dd"),
+                StartDate = startDate.ToString("yyyy/MM/dd"),
                 RepaymentType = repaymentType
             };
 
